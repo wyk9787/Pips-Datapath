@@ -16,7 +16,7 @@ v2.0 raw
 # 8: branch instruction
 # 9: invert branch sense (branch when ALU result is not zero)
 # 10: jump instruction
-# 11: unused
+# 11: memory output 
 # 12: byte (0) or word (1)
 # 13: write enable
 
@@ -57,10 +57,10 @@ v2.0 raw
 0051
 
 # Opcode 9: lb
-0000
+0801
 
 # Opcode 10: lw
-0000
+1801
 
 # Opcode 11: sb
 2080

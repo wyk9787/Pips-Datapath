@@ -1,0 +1,98 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop
+06610000 
+
+# 0x0004: li $sp, 0xf800
+0e01f800 
+
+# 0x0008: li $a0, 4
+02010004 
+
+# 0x000c: li $ra, 200
+0f0100c8 
+
+# 0x0010: beq $a0, $zero, first
+d2010068 
+
+# 0x0014: nop
+06610000 
+
+# 0x0018: li $t0, 1
+06010001 
+
+# 0x001c: beq $a0, $t0, second
+d2610074 
+
+# 0x0020: nop
+06610000 
+
+# 0x0024: addi $sp, $sp, -12
+0ee1fff4 
+
+# 0x0028: sw $a0, 4($sp)
+c2e10004 
+
+# 0x002c: sw $ra, 0($sp)
+cfe10000 
+
+# 0x0030: addi $a0, $a0, -1
+0221ffff 
+
+# 0x0034: jal fib
+ff030010 
+
+# 0x0038: nop
+06610000 
+
+# 0x003c: sw $v0, 8($sp)
+c1e10008 
+
+# 0x0040: lw $a0, 4($sp)
+a2e10004 
+
+# 0x0044: addi $a0, $a0, -2
+0221fffe 
+
+# 0x0048: jal fib
+ff030010 
+
+# 0x004c: nop
+06610000 
+
+# 0x0050: lw $t0, 8($sp)
+a6e10008 
+
+# 0x0054: add $v0, $v0, $t0
+01106000 
+
+# 0x0058: lw $ra, 0($sp)
+afe10000 
+
+# 0x005c: addi $sp, $sp, 12
+0ee1000c 
+
+# 0x0060: jr $ra
+f000f000 
+
+# 0x0064: nop
+06610000 
+
+# 0x0068: li $v0, 0
+01010000 
+
+# 0x006c: jr $ra
+f000f000 
+
+# 0x0070: nop
+06610000 
+
+# 0x0074: li $v0, 1
+01010001 
+
+# 0x0078: jr $ra
+f000f000 
+
+# 0x007c: nop
+06610000 

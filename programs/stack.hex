@@ -1,0 +1,26 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop
+06610000 
+
+# 0x0004: li $sp, 0xf800
+0e01f800 
+
+# 0x0008: li $t0, 1
+06010001 
+
+# 0x000c: li $s0, 3
+0a010003 
+
+# 0x0010: sw $t0, 4($sp)
+c6e10004 
+
+# 0x0014: sw $s0, 8($sp)
+cae10008 
+
+# 0x0018: lw $t1, 4($sp)
+a7e10004 
+
+# 0x001c: lw $t2, 8($sp)
+a8e10008 

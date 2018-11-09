@@ -105,3 +105,19 @@ def beq(operand1, operand2, immediate):
 @assembler.instruction('bne #, #, #', 1)
 def beq(operand1, operand2, immediate):
   return pips.iformat(opcode='bne', r0=operand1, r1=operand2, imm=immediate)
+  
+@assembler.instruction('lw #, #(#)', 1)
+def lw(operand1, immediate, operand2):
+  return pips.iformat(opcode='lw', r0=operand1, r1=operand2, imm=immediate)
+
+@assembler.instruction('lb #, #(#)', 1)
+def lb(operand1, immediate, operand2):
+  return pips.iformat(opcode='lb', r0=operand1, r1=operand2, imm=immediate)
+
+@assembler.instruction('sw #, #(#)', 1)
+def sw(operand1, immediate, operand2):
+  return pips.iformat(opcode='sw', r0=operand1, r1=operand2, imm=immediate)
+
+@assembler.instruction('sb #, #(#)', 1)
+def sb(operand1, immediate, operand2):
+  return pips.iformat(opcode='sb', r0=operand1, r1=operand2, imm=immediate)
