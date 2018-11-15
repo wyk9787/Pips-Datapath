@@ -6,4 +6,6 @@ sw $t0, 4($sp)
 sw $s0, 8($sp)
 lw $t1, 4($sp)
 lw $t2, 8($sp)
+j 0xff00
+nop
 
