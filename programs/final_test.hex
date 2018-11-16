@@ -1,0 +1,176 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop # First instruction does not execute
+06610000 
+
+# 0x0004: li $a0, 127
+0201007f 
+
+# 0x0008: jal print_decimal_number
+ff030018 
+
+# 0x000c: nop
+06610000 
+
+# 0x0010: j HALT
+f001ff00 
+
+# 0x0014: nop
+06610000 
+
+# 0x0018: li $t0, TERMINAL
+0601ff10 
+
+# 0x001c: bne $a0, $zero, else # if (n == 0)
+e201002c 
+
+# 0x0020: nop
+06610000 
+
+# 0x0024: li $t1, 0x30         # Load ASCII value for '0'
+07010030 
+
+# 0x0028: sb $t1, 0($t0)       # Print "0"
+b7610000 
+
+# 0x002c: li $t2, 10
+0801000a 
+
+# 0x0030: addi $sp, $sp, -6    # Leave six bytes on the stack
+0ee1fffa 
+
+# 0x0034: sw $a0, 2($sp)       # Push $a0 to the stack
+c2e10002 
+
+# 0x0038: sw $ra, 0($sp)       # Push $ra to the stack
+cfe10000 
+
+# 0x003c: li $a1, 10           # $a1 = 10
+0301000a 
+
+# 0x0040: jal remainder        # Call remainder(n, 10)
+ff030098 
+
+# 0x0044: nop
+06610000 
+
+# 0x0048: add $t2, $v0, $zero  # digit = $t2 = $v0
+08100000 
+
+# 0x004c: lw $a0, 2($sp)       # $a0 = n
+a2e10002 
+
+# 0x0050: sw $t2, 4($sp)       # Push digit to the stack
+c8e10004 
+
+# 0x0054: slt $t3, $t2, $a0    # if (digit < n), $t3 = 1, otherwise, $t3 = 0
+79802000 
+
+# 0x0058: beq $t3, $zero, last
+d9010078 
+
+# 0x005c: nop
+06610000 
+
+# 0x0060: li $a1, 10           # $a1 = 10
+0301000a 
+
+# 0x0064: jal quotient         # Call quotient(n, 10)
+ff0300bc 
+
+# 0x0068: nop
+06610000 
+
+# 0x006c: add $a0, $v0, $zero  # $a0 = $v0 = n / 10
+02100000 
+
+# 0x0070: jal print_decimal_number
+ff030018 
+
+# 0x0074: nop
+06610000 
+
+# 0x0078: li $t0, TERMINAL     # Load terminal again
+0601ff10 
+
+# 0x007c: lw $t2, 4($sp)       # Load digit from the stack
+a8e10004 
+
+# 0x0080: lw $ra, 0($sp)       # Load $ra from the stack
+afe10000 
+
+# 0x0084: addi $t2, $t2, 0x30  # $t2 = '0' + digit
+08810030 
+
+# 0x0088: sb $t2, 0($t0)       # Print '0' + digit
+b8610000 
+
+# 0x008c: addi $sp, $sp, 6     # Restore the stack
+0ee10006 
+
+# 0x0090: jr $ra
+f000f000 
+
+# 0x0094: nop
+06610000 
+
+# 0x0098: slt $t0, $a0, $a1
+76203000 
+
+# 0x009c: beq $t0, $zero, while_remainder
+d60100b0 
+
+# 0x00a0: nop
+06610000 
+
+# 0x00a4: add $v0, $a0, $zero
+01200000 
+
+# 0x00a8: jr $ra
+f000f000 
+
+# 0x00ac: nop
+06610000 
+
+# 0x00b0: sub $a0, $a0, $a1
+12203000 
+
+# 0x00b4: j remainder
+f0010098 
+
+# 0x00b8: nop
+06610000 
+
+# 0x00bc: li $t1, 0
+07010000 
+
+# 0x00c0: slt $t0, $a0, $a1
+76203000 
+
+# 0x00c4: beq $t0, $zero, while_quotient
+d60100d8 
+
+# 0x00c8: nop
+06610000 
+
+# 0x00cc: add $v0, $t1, $zero
+01700000 
+
+# 0x00d0: jr $ra
+f000f000 
+
+# 0x00d4: nop
+06610000 
+
+# 0x00d8: sub $a0, $a0, $a1
+12203000 
+
+# 0x00dc: addi $t1, $t1, 1
+07710001 
+
+# 0x00e0: j quotient_top
+f00100c0 
+
+# 0x00e4: nop
+06610000 
