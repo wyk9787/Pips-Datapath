@@ -4,11 +4,11 @@ v2.0 raw
 # 0x0000: nop # First instruction does not execute
 06610000 
 
-# 0x0004: li $a0, 127
-0201007f 
+# 0x0004: li $a0, 15
+0201000f 
 
-# 0x0008: jal print_decimal_number
-ff030018 
+# 0x0008: jal fibonacci
+ff0300e8 
 
 # 0x000c: nop
 06610000 
@@ -173,4 +173,148 @@ f000f000
 f00100c0 
 
 # 0x00e4: nop
+06610000 
+
+# 0x00e8: li $s0, TERMINAL
+0a01ff10 
+
+# 0x00ec: li $t0, 1             # first is 0
+06010001 
+
+# 0x00f0: li $t1, 1	            # second is 0
+07010001 
+
+# 0x00f4: li $t2, 0	            # var i for for loop
+08010000 
+
+# 0x00f8: addi $sp, $sp, -10    # reserve stack space for $ra
+0ee1fff6 
+
+# 0x00fc: sw $ra, 0($sp)				#	store $ra
+cfe10000 
+
+# 0x0100: slt $t3, $t2, $a0			#	If i is smaller than n then $t3 is 1
+79802000 
+
+# 0x0104: beq $t3, $zero, return # If $t3 is 1 (i < n) end
+d9010198 
+
+# 0x0108: nop
+06610000 
+
+# 0x010c: beq $t2, $zero, loop_zero	#	If i is zero print first
+d8010160 
+
+# 0x0110: nop
+06610000 
+
+# 0x0114: li $t3, 1
+09010001 
+
+# 0x0118: beq $t2, $t3, loop_one #	If i is one print second
+d891017c 
+
+# 0x011c: nop
+06610000 
+
+# 0x0120: sw $t1, 2($sp)
+c7e10002 
+
+# 0x0124: sw $a0, 4($sp)				#	store a0 into
+c2e10004 
+
+# 0x0128: add $a0, $t0, $t1			# 	a0 = first + second, the fibonacci number we have to print
+02607000 
+
+# 0x012c: sw $a0, 6($sp)
+c2e10006 
+
+# 0x0130: sw $t2, 8($sp)
+c8e10008 
+
+# 0x0134: jal print_decimal_number
+ff030018 
+
+# 0x0138: nop
+06610000 
+
+# 0x013c: li $t0, 0x0a          # $t0 is a new line character now
+0601000a 
+
+# 0x0140: sb $t0, 0($s0)        # Print newline
+b6a10000 
+
+# 0x0144: lw $t0, 2($sp)				# first = second
+a6e10002 
+
+# 0x0148: lw $t1, 6($sp)				# second = third
+a7e10006 
+
+# 0x014c: lw $t2, 8($sp)
+a8e10008 
+
+# 0x0150: addi $t2, $t2, 1			#	increment i
+08810001 
+
+# 0x0154: lw $a0, 4($sp)				#	store original n value back
+a2e10004 
+
+# 0x0158: j for
+f0010100 
+
+# 0x015c: nop
+06610000 
+
+# 0x0160: li $t3, 0x31   				# Load ASCII value for '0'
+09010031 
+
+# 0x0164: sb $t3, 0($s0) 				# Print '0'
+b9a10000 
+
+# 0x0168: li $t3, 0x0a          # $t3 is a new line character now
+0901000a 
+
+# 0x016c: sb $t3, 0($s0)        # Print newline
+b9a10000 
+
+# 0x0170: addi $t2, $t2, 1			#	increment i
+08810001 
+
+# 0x0174: j for
+f0010100 
+
+# 0x0178: nop
+06610000 
+
+# 0x017c: li $t3, 0x31   				# Load ASCII value for '1'
+09010031 
+
+# 0x0180: sb $t3, 0($s0) 				# Print '1'
+b9a10000 
+
+# 0x0184: li $t3, 0x0a          # $t3 is a new line character now
+0901000a 
+
+# 0x0188: sb $t3, 0($s0)        # Print newline
+b9a10000 
+
+# 0x018c: addi $t2, $t2, 1			#	increment i
+08810001 
+
+# 0x0190: j for
+f0010100 
+
+# 0x0194: nop
+06610000 
+
+# 0x0198: lw $ra, 0($sp)				# return $ra
+afe10000 
+
+# 0x019c: addi $sp, $sp, 10			# return stack space
+0ee1000a 
+
+# 0x01a0: jr $ra
+f000f000 
+
+# 0x01a4: nop
 06610000 
