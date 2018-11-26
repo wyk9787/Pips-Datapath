@@ -8,7 +8,7 @@ v2.0 raw
 0201000f 
 
 # 0x0008: jal fibonacci
-ff0300e8 
+ff0300f8 
 
 # 0x000c: nop
 06610000 
@@ -37,284 +37,272 @@ b7610000
 # 0x002c: li $t2, 10
 0801000a 
 
-# 0x0030: addi $sp, $sp, -6    # Leave six bytes on the stack
-0ee1fffa 
+# 0x0030: push $ra             # Push $ra to the stack
+0ee1fffe cfe10000 
 
-# 0x0034: sw $a0, 2($sp)       # Push $a0 to the stack
-c2e10002 
+# 0x0038: push $a0             # Push $a0 to the stack
+0ee1fffe c2e10000 
 
-# 0x0038: sw $ra, 0($sp)       # Push $ra to the stack
-cfe10000 
-
-# 0x003c: li $a1, 10           # $a1 = 10
+# 0x0040: li $a1, 10           # $a1 = 10
 0301000a 
 
-# 0x0040: jal remainder        # Call remainder(n, 10)
-ff030098 
+# 0x0044: jal remainder        # Call remainder(n, 10)
+ff0300a8 
 
-# 0x0044: nop
+# 0x0048: nop
 06610000 
 
-# 0x0048: add $t2, $v0, $zero  # digit = $t2 = $v0
+# 0x004c: add $t2, $v0, $zero  # digit = $t2 = $v0
 08100000 
 
-# 0x004c: lw $a0, 2($sp)       # $a0 = n
-a2e10002 
+# 0x0050: pop $a0              # $a0 = n
+a2e10000 0ee10002 
 
-# 0x0050: sw $t2, 4($sp)       # Push digit to the stack
-c8e10004 
+# 0x0058: push $t2             # Push digit to the stack
+0ee1fffe c8e10000 
 
-# 0x0054: slt $t3, $t2, $a0    # if (digit < n), $t3 = 1, otherwise, $t3 = 0
+# 0x0060: slt $t3, $t2, $a0    # if (digit < n), $t3 = 1, otherwise, $t3 = 0
 79802000 
 
-# 0x0058: beq $t3, $zero, last
-d9010078 
-
-# 0x005c: nop
-06610000 
-
-# 0x0060: li $a1, 10           # $a1 = 10
-0301000a 
-
-# 0x0064: jal quotient         # Call quotient(n, 10)
-ff0300bc 
+# 0x0064: beq $t3, $zero, last
+d9010084 
 
 # 0x0068: nop
 06610000 
 
-# 0x006c: add $a0, $v0, $zero  # $a0 = $v0 = n / 10
-02100000 
+# 0x006c: li $a1, 10           # $a1 = 10
+0301000a 
 
-# 0x0070: jal print_decimal_number
-ff030018 
+# 0x0070: jal quotient         # Call quotient(n, 10)
+ff0300cc 
 
 # 0x0074: nop
 06610000 
 
-# 0x0078: li $t0, TERMINAL     # Load terminal again
+# 0x0078: add $a0, $v0, $zero  # $a0 = $v0 = n / 10
+02100000 
+
+# 0x007c: jal print_decimal_number
+ff030018 
+
+# 0x0080: nop
+06610000 
+
+# 0x0084: li $t0, TERMINAL     # Load terminal again
 0601ff10 
 
-# 0x007c: lw $t2, 4($sp)       # Load digit from the stack
-a8e10004 
+# 0x0088: pop $t2              # Load digit from the stack
+a8e10000 0ee10002 
 
-# 0x0080: lw $ra, 0($sp)       # Load $ra from the stack
-afe10000 
+# 0x0090: pop $ra              # Load $ra from the stack
+afe10000 0ee10002 
 
-# 0x0084: addi $t2, $t2, 0x30  # $t2 = '0' + digit
+# 0x0098: addi $t2, $t2, 0x30  # $t2 = '0' + digit
 08810030 
 
-# 0x0088: sb $t2, 0($t0)       # Print '0' + digit
+# 0x009c: sb $t2, 0($t0)       # Print '0' + digit
 b8610000 
 
-# 0x008c: addi $sp, $sp, 6     # Restore the stack
-0ee10006 
-
-# 0x0090: jr $ra
+# 0x00a0: jr $ra
 f000f000 
 
-# 0x0094: nop
+# 0x00a4: nop
 06610000 
 
-# 0x0098: slt $t0, $a0, $a1
+# 0x00a8: slt $t0, $a0, $a1
 76203000 
 
-# 0x009c: beq $t0, $zero, while_remainder
-d60100b0 
+# 0x00ac: beq $t0, $zero, while_remainder
+d60100c0 
 
-# 0x00a0: nop
+# 0x00b0: nop
 06610000 
 
-# 0x00a4: add $v0, $a0, $zero
+# 0x00b4: add $v0, $a0, $zero
 01200000 
 
-# 0x00a8: jr $ra
+# 0x00b8: jr $ra
 f000f000 
 
-# 0x00ac: nop
+# 0x00bc: nop
 06610000 
 
-# 0x00b0: sub $a0, $a0, $a1
+# 0x00c0: sub $a0, $a0, $a1
 12203000 
 
-# 0x00b4: j remainder
-f0010098 
-
-# 0x00b8: nop
-06610000 
-
-# 0x00bc: li $t1, 0
-07010000 
-
-# 0x00c0: slt $t0, $a0, $a1
-76203000 
-
-# 0x00c4: beq $t0, $zero, while_quotient
-d60100d8 
+# 0x00c4: j remainder
+f00100a8 
 
 # 0x00c8: nop
 06610000 
 
-# 0x00cc: add $v0, $t1, $zero
-01700000 
+# 0x00cc: li $t1, 0
+07010000 
 
-# 0x00d0: jr $ra
-f000f000 
+# 0x00d0: slt $t0, $a0, $a1
+76203000 
 
-# 0x00d4: nop
+# 0x00d4: beq $t0, $zero, while_quotient
+d60100e8 
+
+# 0x00d8: nop
 06610000 
 
-# 0x00d8: sub $a0, $a0, $a1
-12203000 
+# 0x00dc: add $v0, $t1, $zero
+01700000 
 
-# 0x00dc: addi $t1, $t1, 1
-07710001 
-
-# 0x00e0: j quotient_top
-f00100c0 
+# 0x00e0: jr $ra
+f000f000 
 
 # 0x00e4: nop
 06610000 
 
-# 0x00e8: li $s0, TERMINAL
+# 0x00e8: sub $a0, $a0, $a1
+12203000 
+
+# 0x00ec: addi $t1, $t1, 1
+07710001 
+
+# 0x00f0: j quotient_top
+f00100d0 
+
+# 0x00f4: nop
+06610000 
+
+# 0x00f8: li $s0, TERMINAL
 0a01ff10 
 
-# 0x00ec: li $t0, 1             # first is 0
+# 0x00fc: li $t0, 1             # first is 0
 06010001 
 
-# 0x00f0: li $t1, 1	            # second is 0
+# 0x0100: li $t1, 1	            # second is 0
 07010001 
 
-# 0x00f4: li $t2, 0	            # var i for for loop
+# 0x0104: li $t2, 0	            # var i for for loop
 08010000 
 
-# 0x00f8: addi $sp, $sp, -10    # reserve stack space for $ra
-0ee1fff6 
+# 0x0108: push $ra              #	store $ra
+0ee1fffe cfe10000 
 
-# 0x00fc: sw $ra, 0($sp)				#	store $ra
-cfe10000 
-
-# 0x0100: slt $t3, $t2, $a0			#	If i is smaller than n then $t3 is 1
+# 0x0110: slt $t3, $t2, $a0			#	If i is smaller than n then $t3 is 1
 79802000 
 
-# 0x0104: beq $t3, $zero, return # If $t3 is 1 (i < n) end
-d9010198 
+# 0x0114: beq $t3, $zero, return # If $t3 is 1 (i < n) end
+d90101c8 
 
-# 0x0108: nop
+# 0x0118: nop
 06610000 
 
-# 0x010c: beq $t2, $zero, loop_zero	#	If i is zero print first
-d8010160 
+# 0x011c: beq $t2, $zero, loop_zero	#	If i is zero print first
+d8010190 
 
-# 0x0110: nop
+# 0x0120: nop
 06610000 
 
-# 0x0114: li $t3, 1
+# 0x0124: li $t3, 1
 09010001 
 
-# 0x0118: beq $t2, $t3, loop_one #	If i is one print second
-d891017c 
+# 0x0128: beq $t2, $t3, loop_one #	If i is one print second
+d89101ac 
 
-# 0x011c: nop
+# 0x012c: nop
 06610000 
 
-# 0x0120: sw $t1, 2($sp)
-c7e10002 
+# 0x0130: push $t1
+0ee1fffe c7e10000 
 
-# 0x0124: sw $a0, 4($sp)				#	store a0 into
-c2e10004 
+# 0x0138: push $a0
+0ee1fffe c2e10000 
 
-# 0x0128: add $a0, $t0, $t1			# 	a0 = first + second, the fibonacci number we have to print
+# 0x0140: add $a0, $t0, $t1			# 	a0 = first + second, the fibonacci number we have to print
 02607000 
 
-# 0x012c: sw $a0, 6($sp)
-c2e10006 
+# 0x0144: push $a0
+0ee1fffe c2e10000 
 
-# 0x0130: sw $t2, 8($sp)
-c8e10008 
+# 0x014c: push $t2
+0ee1fffe c8e10000 
 
-# 0x0134: jal print_decimal_number
+# 0x0154: jal print_decimal_number
 ff030018 
 
-# 0x0138: nop
+# 0x0158: nop
 06610000 
 
-# 0x013c: li $t0, 0x0a          # $t0 is a new line character now
+# 0x015c: li $t0, 0x0a          # $t0 is a new line character now
 0601000a 
 
-# 0x0140: sb $t0, 0($s0)        # Print newline
+# 0x0160: sb $t0, 0($s0)        # Print newline
 b6a10000 
 
-# 0x0144: lw $t0, 2($sp)				# first = second
-a6e10002 
+# 0x0164: pop $t2
+a8e10000 0ee10002 
 
-# 0x0148: lw $t1, 6($sp)				# second = third
-a7e10006 
+# 0x016c: pop $t1
+a7e10000 0ee10002 
 
-# 0x014c: lw $t2, 8($sp)
-a8e10008 
+# 0x0174: pop $a0
+a2e10000 0ee10002 
 
-# 0x0150: addi $t2, $t2, 1			#	increment i
+# 0x017c: pop $t0
+a6e10000 0ee10002 
+
+# 0x0184: addi $t2, $t2, 1			#	increment i
 08810001 
 
-# 0x0154: lw $a0, 4($sp)				#	store original n value back
-a2e10004 
+# 0x0188: j for
+f0010110 
 
-# 0x0158: j for
-f0010100 
-
-# 0x015c: nop
+# 0x018c: nop
 06610000 
 
-# 0x0160: li $t3, 0x31   				# Load ASCII value for '0'
+# 0x0190: li $t3, 0x31   				# Load ASCII value for '0'
 09010031 
 
-# 0x0164: sb $t3, 0($s0) 				# Print '0'
+# 0x0194: sb $t3, 0($s0) 				# Print '0'
 b9a10000 
 
-# 0x0168: li $t3, 0x0a          # $t3 is a new line character now
+# 0x0198: li $t3, 0x0a          # $t3 is a new line character now
 0901000a 
 
-# 0x016c: sb $t3, 0($s0)        # Print newline
+# 0x019c: sb $t3, 0($s0)        # Print newline
 b9a10000 
 
-# 0x0170: addi $t2, $t2, 1			#	increment i
+# 0x01a0: addi $t2, $t2, 1			#	increment i
 08810001 
 
-# 0x0174: j for
-f0010100 
+# 0x01a4: j for
+f0010110 
 
-# 0x0178: nop
+# 0x01a8: nop
 06610000 
 
-# 0x017c: li $t3, 0x31   				# Load ASCII value for '1'
+# 0x01ac: li $t3, 0x31   				# Load ASCII value for '1'
 09010031 
 
-# 0x0180: sb $t3, 0($s0) 				# Print '1'
+# 0x01b0: sb $t3, 0($s0) 				# Print '1'
 b9a10000 
 
-# 0x0184: li $t3, 0x0a          # $t3 is a new line character now
+# 0x01b4: li $t3, 0x0a          # $t3 is a new line character now
 0901000a 
 
-# 0x0188: sb $t3, 0($s0)        # Print newline
+# 0x01b8: sb $t3, 0($s0)        # Print newline
 b9a10000 
 
-# 0x018c: addi $t2, $t2, 1			#	increment i
+# 0x01bc: addi $t2, $t2, 1			#	increment i
 08810001 
 
-# 0x0190: j for
-f0010100 
+# 0x01c0: j for
+f0010110 
 
-# 0x0194: nop
+# 0x01c4: nop
 06610000 
 
-# 0x0198: lw $ra, 0($sp)				# return $ra
-afe10000 
+# 0x01c8: pop $ra
+afe10000 0ee10002 
 
-# 0x019c: addi $sp, $sp, 10			# return stack space
-0ee1000a 
-
-# 0x01a0: jr $ra
+# 0x01d0: jr $ra
 f000f000 
 
-# 0x01a4: nop
+# 0x01d4: nop
 06610000 

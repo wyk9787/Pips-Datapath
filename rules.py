@@ -103,7 +103,7 @@ def beq(operand1, operand2, immediate):
   return pips.iformat(opcode='beq', r0=operand1, r1=operand2, imm=immediate)
 
 @assembler.instruction('bne #, #, #', 1)
-def beq(operand1, operand2, immediate):
+def bne(operand1, operand2, immediate):
   return pips.iformat(opcode='bne', r0=operand1, r1=operand2, imm=immediate)
   
 @assembler.instruction('lw #, #(#)', 1)
@@ -121,3 +121,46 @@ def sw(operand1, immediate, operand2):
 @assembler.instruction('sb #, #(#)', 1)
 def sb(operand1, immediate, operand2):
   return pips.iformat(opcode='sb', r0=operand1, r1=operand2, imm=immediate)
+
+@assembler.instruction('sll #, #, #', 1)
+def sll(operand1, operand2, shift_amt):
+  return pips.rformat(opcode='add', r0=operand1, r1='$zero', r2=operand2,
+          shift_type=pips.SHIFT_LEFT, shift_amt=shift_amt)
+
+@assembler.instruction('srl #, #, #', 1)
+def srl(operand1, operand2, shift_amt):
+  return pips.rformat(opcode='add', r0=operand1, r1='$zero', r2=operand2,
+          shift_type=pips.SHIFT_RIGHT_LOGICAL, shift_amt=shift_amt)
+
+@assembler.instruction('sra #, #, #', 1)
+def sra(operand1, operand2, shift_amt):
+  return pips.rformat(opcode='add', r0=operand1, r1='$zero', r2=operand2,
+          shift_type=pips.SHIFT_RIGHT_ARITHMETIC, shift_amt=shift_amt)
+
+@assembler.instruction('not #, #', 1)
+def not_instr(dest, src):
+   return xori(dest, src, -1)
+
+@assembler.instruction('push #', 2) # <- notice the 2 here. This tells the assembler that we will emit two instructions for this rule
+def push_instr(reg):
+  return addi('$sp', '$sp', '-2') + sw(reg, 0, '$sp')
+
+@assembler.instruction('pop #', 2) 
+def pop_instr(reg):
+  return lw(reg, 0, '$sp') + addi('$sp', '$sp', '2')
+
+@assembler.instruction('blt! #, #, #', 2) 
+def blt(operand1, operand2, label):
+  return slt(operand1, operand1, operand2) + bne(operand1, '$zero', label)
+
+@assembler.instruction('ble! #, #, #', 2) 
+def ble(operand1, operand2, label):
+  return slt(operand1, operand2, operand1) + beq(operand1, '$zero', label)
+
+@assembler.instruction('bgt! #, #, #', 2) 
+def bgt(operand1, operand2, label):
+  return slt(operand1, operand2, operand1) + bne(operand1, '$zero', label)
+
+@assembler.instruction('bge! #, #, #', 2) 
+def bge(operand1, operand2, label):
+  return slt(operand1, operand1, operand2) + beq(operand1, '$zero', label)

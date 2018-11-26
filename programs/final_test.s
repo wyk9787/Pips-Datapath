@@ -16,15 +16,14 @@ print_decimal_number:
   sb $t1, 0($t0)       # Print "0"
 else:
   li $t2, 10
-  addi $sp, $sp, -6    # Leave six bytes on the stack
-  sw $a0, 2($sp)       # Push $a0 to the stack 
-  sw $ra, 0($sp)       # Push $ra to the stack
+  push $ra             # Push $ra to the stack
+  push $a0             # Push $a0 to the stack 
   li $a1, 10           # $a1 = 10
   jal remainder        # Call remainder(n, 10)
   nop
   add $t2, $v0, $zero  # digit = $t2 = $v0
-  lw $a0, 2($sp)       # $a0 = n 
-  sw $t2, 4($sp)       # Push digit to the stack  
+  pop $a0              # $a0 = n 
+  push $t2             # Push digit to the stack  
   slt $t3, $t2, $a0    # if (digit < n), $t3 = 1, otherwise, $t3 = 0
   beq $t3, $zero, last 
   nop
@@ -36,11 +35,10 @@ else:
   nop
 last:
   li $t0, TERMINAL     # Load terminal again
-  lw $t2, 4($sp)       # Load digit from the stack
-  lw $ra, 0($sp)       # Load $ra from the stack
+  pop $t2              # Load digit from the stack
+  pop $ra              # Load $ra from the stack
   addi $t2, $t2, 0x30  # $t2 = '0' + digit
   sb $t2, 0($t0)       # Print '0' + digit
-  addi $sp, $sp, 6     # Restore the stack
   jr $ra
   nop
    
@@ -107,8 +105,7 @@ fibonacci:
 	li $t0, 1             # first is 0 
 	li $t1, 1	            # second is 0
 	li $t2, 0	            # var i for for loop 
-	addi $sp, $sp, -10    # reserve stack space for $ra
-	sw $ra, 0($sp)				#	store $ra		
+	push $ra              #	store $ra		
 for:
 	slt $t3, $t2, $a0			#	If i is smaller than n then $t3 is 1
 	beq $t3, $zero, return # If $t3 is 1 (i < n) end 
@@ -118,20 +115,20 @@ for:
 	li $t3, 1					
 	beq $t2, $t3, loop_one #	If i is one print second
 	nop
-	sw $t1, 2($sp)
-	sw $a0, 4($sp)				#	store a0 into 
+  push $t1
+  push $a0
 	add $a0, $t0, $t1			# 	a0 = first + second, the fibonacci number we have to print  
-	sw $a0, 6($sp)
-	sw $t2, 8($sp)
+  push $a0
+  push $t2
 	jal print_decimal_number
 	nop
   li $t0, 0x0a          # $t0 is a new line character now
   sb $t0, 0($s0)        # Print newline
-	lw $t0, 2($sp)				# first = second 
-	lw $t1, 6($sp)				# second = third 
-	lw $t2, 8($sp)
+  pop $t2
+  pop $t1
+  pop $a0
+  pop $t0
 	addi $t2, $t2, 1			#	increment i 
-	lw $a0, 4($sp)				#	store original n value back
 	j for
 	nop 
 loop_zero:
@@ -151,8 +148,7 @@ loop_one:
   j for 
   nop 
 return:
-	lw $ra, 0($sp)				# return $ra
-	addi $sp, $sp, 10			# return stack space
+  pop $ra
 	jr $ra
 	nop 
    
