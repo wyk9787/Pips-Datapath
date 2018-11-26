@@ -1,0 +1,218 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop
+06610000 
+
+# 0x0004: li $s0, TERM
+0a01ff10 
+
+# 0x0008: li $s1, KB
+0b01ff20 
+
+# 0x000c: li $sp, STACK_TOP
+0e01f800 
+
+# 0x0010: lw $t0, 0($s1)      # Read a character
+a6b10000 
+
+# 0x0014: li $t2, '\n'
+0801000a 
+
+# 0x0018: beq $t0, $t2, end   # If the character is '\n', then we halt
+d681004c 
+
+# 0x001c: beq $t0, $zero, loop_top # If the character is 0, we go back to the top
+d6010010 
+
+# 0x0020: li $t2, '+'
+0801002b 
+
+# 0x0024: beq $t0, $t2, loop_top # If the character is +, we go back to the top
+d6810010 
+
+# 0x0028: addi $t0, $t0, -48  # Acquire the actual number from the character
+0661ffd0 
+
+# 0x002c: bne $t1, $zero, eval # If this is already the second number, then we eval
+e701003c 
+
+# 0x0030: add $s2, $t0, $zero # Save the current character
+0c600000 
+
+# 0x0034: li $t1, 1           # Use a flag to indicate we have seen the first number
+07010001 
+
+# 0x0038: j loop_top
+f0010010 
+
+# 0x003c: add $a0, $s2, $t0   # Add two numbers together
+02c06000 
+
+# 0x0040: jal print_decimal_number # Print the sum
+ff030054 
+
+# 0x0044: li $t1, 0           # Clear the flag
+07010000 
+
+# 0x0048: j loop_top
+f0010010 
+
+# 0x004c: li $s0, HALT
+0a01ff00 
+
+# 0x0050: jr $s0
+f000a000 
+
+# 0x0054: li $t0, TERM
+0601ff10 
+
+# 0x0058: bne $a0, $zero, else # if (n == 0)
+e201006c 
+
+# 0x005c: nop
+06610000 
+
+# 0x0060: li $t1, 0x30         # Load ASCII value for '0'
+07010030 
+
+# 0x0064: sb $t1, 0($t0)       # Print "0"
+b7610000 
+
+# 0x0068: jr $ra
+f000f000 
+
+# 0x006c: li $t2, 10
+0801000a 
+
+# 0x0070: push $ra             # Push $ra to the stack
+0ee1fffe cfe10000 
+
+# 0x0078: push $a0             # Push $a0 to the stack
+0ee1fffe c2e10000 
+
+# 0x0080: li $a1, 10           # $a1 = 10
+0301000a 
+
+# 0x0084: jal remainder        # Call remainder(n, 10)
+ff0300e8 
+
+# 0x0088: nop
+06610000 
+
+# 0x008c: add $t2, $v0, $zero  # digit = $t2 = $v0
+08100000 
+
+# 0x0090: pop $a0              # $a0 = n
+a2e10000 0ee10002 
+
+# 0x0098: push $t2             # Push digit to the stack
+0ee1fffe c8e10000 
+
+# 0x00a0: slt $t3, $t2, $a0    # if (digit < n), $t3 = 1, otherwise, $t3 = 0
+79802000 
+
+# 0x00a4: beq $t3, $zero, last
+d90100c4 
+
+# 0x00a8: nop
+06610000 
+
+# 0x00ac: li $a1, 10           # $a1 = 10
+0301000a 
+
+# 0x00b0: jal quotient         # Call quotient(n, 10)
+ff03010c 
+
+# 0x00b4: nop
+06610000 
+
+# 0x00b8: add $a0, $v0, $zero  # $a0 = $v0 = n / 10
+02100000 
+
+# 0x00bc: jal print_decimal_number
+ff030054 
+
+# 0x00c0: nop
+06610000 
+
+# 0x00c4: li $t0, TERM         # Load terminal again
+0601ff10 
+
+# 0x00c8: pop $t2              # Load digit from the stack
+a8e10000 0ee10002 
+
+# 0x00d0: pop $ra              # Load $ra from the stack
+afe10000 0ee10002 
+
+# 0x00d8: addi $t2, $t2, 0x30  # $t2 = '0' + digit
+08810030 
+
+# 0x00dc: sb $t2, 0($t0)       # Print '0' + digit
+b8610000 
+
+# 0x00e0: jr $ra
+f000f000 
+
+# 0x00e4: nop
+06610000 
+
+# 0x00e8: slt $t0, $a0, $a1
+76203000 
+
+# 0x00ec: beq $t0, $zero, while_remainder
+d6010100 
+
+# 0x00f0: nop
+06610000 
+
+# 0x00f4: add $v0, $a0, $zero
+01200000 
+
+# 0x00f8: jr $ra
+f000f000 
+
+# 0x00fc: nop
+06610000 
+
+# 0x0100: sub $a0, $a0, $a1
+12203000 
+
+# 0x0104: j remainder
+f00100e8 
+
+# 0x0108: nop
+06610000 
+
+# 0x010c: li $t1, 0
+07010000 
+
+# 0x0110: slt $t0, $a0, $a1
+76203000 
+
+# 0x0114: beq $t0, $zero, while_quotient
+d6010128 
+
+# 0x0118: nop
+06610000 
+
+# 0x011c: add $v0, $t1, $zero
+01700000 
+
+# 0x0120: jr $ra
+f000f000 
+
+# 0x0124: nop
+06610000 
+
+# 0x0128: sub $a0, $a0, $a1
+12203000 
+
+# 0x012c: addi $t1, $t1, 1
+07710001 
+
+# 0x0130: j quotient_top
+f0010110 
+
+# 0x0134: nop
+06610000 
